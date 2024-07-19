@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
-import styled from "styled-components";
-import Map from "./Map";
+import styled from 'styled-components';
+import Map from './Map';
 
 const Section = styled.div`
   height: 100vh;
   scroll-snap-align: center;
-
 `;
 
 const Container = styled.div`
@@ -29,18 +28,17 @@ const Left = styled.div`
 `;
 
 const Title = styled.h1`
-  
   font-family: monospace;
   font-size: 70px;
   font-weight: bold;
   color: transparent;
   -webkit-text-stroke: 1px white;
   position: relative;
-  transition: transform 0.5s, color 0.8s; 
+  transition: transform 0.5s, color 0.8s;
 
   &:hover {
     color: white;
-    transform: scale(1.1); 
+    transform: scale(1.1);
   }
 
   @media only screen and (max-width: 768px) {
@@ -57,7 +55,6 @@ const Form = styled.form`
   @media only screen and (max-width: 768px) {
     width: 300px;
   }
-
 `;
 
 const Input = styled.input`
@@ -98,48 +95,45 @@ const Right = styled.div`
 `;
 
 const Contact = () => {
-  const ref = useRef()
+  const ref = useRef();
   const [success, setSuccess] = useState(null);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-  
+    e.preventDefault();
 
-    emailjs
-      
-      sendForm(
-          process.env.REACT_APP_EMAILJS_SERVICE_ID,
-          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-          ref.current,
-          process.env.REACT_APP_EMAILJS_USER_ID
-        )
-      .then(
-        (result) => {
-          console.log(result.text);
-          setSuccess(true);
-        },
-        (error) => {
-          console.log(error.text);
-          setSuccess(false);
-        }
-      );
+    emailjs.sendForm(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      ref.current,
+      import.meta.env.VITE_EMAILJS_USER_ID
+    ).then(
+      (result) => {
+        console.log(result.text);
+        setSuccess(true);
+      },
+      (error) => {
+        console.log(error.text);
+        setSuccess(false);
+      }
+    );
   };
+
   return (
     <Section>
       <Container>
         <Left>
           <Form ref={ref} onSubmit={handleSubmit}>
             <Title>Contact</Title>
-            <Input placeholder="Name" name="name" />
-            <Input placeholder="Email" name="email" />
+            <Input placeholder="Name" name="name" required />
+            <Input placeholder="Email" name="email" required />
             <TextArea
               placeholder="Please write your message"
               name="message"
               rows={15}
+              required
             />
             <Button type="submit">Send</Button>
-            {success &&
-              "Your message has been sent. We'll get back to you soon 🤞"}
+            {success && "Your message has been sent. We'll get back to you soon 🤞"}
           </Form>
         </Left>
         <Right>
